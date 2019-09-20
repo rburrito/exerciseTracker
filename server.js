@@ -112,10 +112,9 @@ app.post('/api/exercise/add', (req, res)=>{
 
   User.findOneAndUpdate({userId:req.body.userId},{$push:{log:{description: req.body.description, duration: req.body.duration, date: completeDate}}}, (err, result)=>{
   if (err){
-  console.log(err)
+  console.log("Error")
    return;
   }
-    console.log("added exercise: "+result)
    res.status(200).send({username: result.username, description: req.body.description, duration: req.body.duration, _id: req.body.userId, date: completeDate})
   })
 
@@ -155,9 +154,7 @@ let getLog= (fDate, tDate, log, limit)=>{
     console.log("Error "+ err)
       return
     } else if (product!=null){
-    console.log(product)
     let mainLog= getLog(req.query.from, req.query.to, product.log, req.query.limit)
-    console.log(mainLog)
     res.status(200).send({_id: product.userId, username: product.username, count:mainLog.length, log: mainLog})
           
       
@@ -172,11 +169,10 @@ app.get('/api/exercise/users', (req, res)=>{
   let users = User.find()
   users.sort({username:"asc"}).exec((err,result)=>{
   if (err){
-  console.log(err)
+  console.log("Error")
   return
   }
     else if (result.length!=0){
-      console.log(result)
        const usernameArray = result.map((res) => {
          return {_id: res.userId, username: res.username, __v: res.__v}
        })
